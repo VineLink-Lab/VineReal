@@ -1,0 +1,25 @@
+# Build output
+/bin/
+
+# Local/stale binaries (built into module dirs before the Makefile moved them to bin/)
+/vinereal-server
+/vinereal-client-demo
+/realitykeygen
+/server/vinereal-server
+/client/vinereal-client-demo
+/server/realitykeygen
+
+# gomobile bind output
+*.aar
+*.xcframework
+*.framework
+
+# Editor / OS noise
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Local config (never commit a real private key)
+config.yaml

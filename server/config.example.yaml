@@ -1,0 +1,40 @@
+# vinereal-server example config. Generate the reality.* key material with:
+#   go run ./cmd/realitykeygen
+listen: "0.0.0.0:443"
+upstream: "127.0.0.1:8080"
+upstream_tls: false
+
+reality:
+  # A real, live, TLS 1.3-capable site you are not affiliated with. This is
+  # the disguise target: unauthenticated connections (including active
+  # probing by a censor) are transparently spliced through to this address
+  # and see its real certificate and content. It is NOT your application
+  # backend — that's `upstream` above.
+  dest: "www.example-decoy.com:443"
+  server_names:
+    - "www.example-decoy.com"
+
+  # From `go run ./cmd/realitykeygen`. Keep secret, server-side only.
+  private_key_b64: "REPLACE_ME"
+
+  # From `go run ./cmd/realitykeygen`. "" is the all-zero default identity;
+  # add one entry per client build/identity you want to be able to revoke
+  # independently later.
+  short_ids:
+    - ""
+
+  min_client_ver: ""
+  max_client_ver: ""
+  max_time_diff_sec: 60
+
+vision:
+  min_frames: 2
+  max_frames: 6
+  min_padding_bytes: 64
+  max_padding_bytes: 1440
+  min_delay_ms: 0
+  max_delay_ms: 30
+
+# Never enable in production: prints partial key material to stdout,
+# meant only for debugging the REALITY handshake during development.
+debug: false
