@@ -86,7 +86,7 @@ func fromRaw(raw *Raw) (*Config, error) {
 		return nil, fmt.Errorf("config: reality.server_names must have at least one entry")
 	}
 	if raw.Reality.PrivateKeyB64 == "" {
-		return nil, fmt.Errorf("config: reality.private_key_b64 is required (see cmd/realitykeygen)")
+		return nil, fmt.Errorf("config: reality.private_key_b64 is required (see vinereal-server keygen)")
 	}
 
 	privKey, err := base64.RawURLEncoding.DecodeString(raw.Reality.PrivateKeyB64)

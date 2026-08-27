@@ -1,5 +1,5 @@
 # vinereal-server example config. Generate the reality.* key material with:
-#   go run ./cmd/realitykeygen
+#   go run ./cmd/vinereal-server keygen
 listen: "0.0.0.0:443"
 upstream: "127.0.0.1:8080"
 upstream_tls: false
@@ -14,12 +14,12 @@ reality:
   server_names:
     - "www.example-decoy.com"
 
-  # From `go run ./cmd/realitykeygen`. Keep secret, server-side only.
+  # From `go run ./cmd/vinereal-server keygen`. Keep secret, server-side only.
   private_key_b64: "REPLACE_ME"
 
-  # From `go run ./cmd/realitykeygen`. "" is the all-zero default identity;
-  # add one entry per client build/identity you want to be able to revoke
-  # independently later.
+  # From `go run ./cmd/vinereal-server keygen`. "" is the all-zero default
+  # identity; add one entry per client build/identity you want to be able to
+  # revoke independently later.
   short_ids:
     - ""
 

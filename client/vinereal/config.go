@@ -4,7 +4,7 @@ import "github.com/VineLink-Lab/VineReal/shared/visionframe"
 
 // Config holds everything the client needs to dial a REALITY-fronted
 // reverse proxy. In production this is meant to be a compile-time constant
-// baked into the app (see cmd/realitykeygen's -format go output), not a
+// baked into the app (see `vinereal-server keygen -format go` output), not a
 // runtime-editable value the end user ever sees or fills in.
 type Config struct {
 	// ServerAddr is the host:port of one of the interchangeable reverse-proxy
@@ -40,7 +40,7 @@ type Config struct {
 
 // DefaultConfig carries sensible non-identity defaults. It deliberately
 // leaves ServerAddr/ServerName/PublicKeyB64/ShortIDHex empty — those come
-// from a specific deployment's generated config (see cmd/realitykeygen).
+// from a specific deployment's generated config (see `vinereal-server keygen`).
 var DefaultConfig = Config{
 	Fingerprint:        "chrome_auto",
 	HandshakeTimeoutMS: 10_000,

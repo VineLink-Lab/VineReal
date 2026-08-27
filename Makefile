@@ -17,7 +17,7 @@ VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 TRIMFLAGS := -trimpath
 LDFLAGS   := -s -w -X main.version=$(VERSION)
 
-.PHONY: all build server keygen client-demo \
+.PHONY: all build server client-demo \
         client-linux server-linux linux \
         test vet clean \
         mobile-android mobile-ios
@@ -26,13 +26,10 @@ all: build
 
 ## ---- native builds (host OS/arch) ----
 
-build: server keygen client-demo
+build: server client-demo
 
 server:
 	cd server && $(GO) build $(TRIMFLAGS) -ldflags="$(LDFLAGS)" -o ../$(BIN)/vinereal-server ./cmd/vinereal-server
-
-keygen:
-	cd server && $(GO) build $(TRIMFLAGS) -ldflags="$(LDFLAGS)" -o ../$(BIN)/realitykeygen ./cmd/realitykeygen
 
 client-demo:
 	cd client && $(GO) build $(TRIMFLAGS) -ldflags="$(LDFLAGS)" -o ../$(BIN)/vinereal-client-demo ./cmd/vinereal-client-demo
@@ -45,12 +42,10 @@ client-linux:
 	cd client && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GO) build $(TRIMFLAGS) -ldflags="$(LDFLAGS)" -o ../$(BIN)/vinereal-client-demo-linux-amd64 ./cmd/vinereal-client-demo
 	cd client && CGO_ENABLED=0 GOOS=linux GOARCH=arm64 $(GO) build $(TRIMFLAGS) -ldflags="$(LDFLAGS)" -o ../$(BIN)/vinereal-client-demo-linux-arm64 ./cmd/vinereal-client-demo
 
-# Same, for the server and keygen, in case you deploy the server on Linux too.
+# Same, for the server, in case you deploy the server on Linux too.
 server-linux:
 	cd server && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GO) build $(TRIMFLAGS) -ldflags="$(LDFLAGS)" -o ../$(BIN)/vinereal-server-linux-amd64 ./cmd/vinereal-server
 	cd server && CGO_ENABLED=0 GOOS=linux GOARCH=arm64 $(GO) build $(TRIMFLAGS) -ldflags="$(LDFLAGS)" -o ../$(BIN)/vinereal-server-linux-arm64 ./cmd/vinereal-server
-	cd server && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GO) build $(TRIMFLAGS) -ldflags="$(LDFLAGS)" -o ../$(BIN)/realitykeygen-linux-amd64 ./cmd/realitykeygen
-	cd server && CGO_ENABLED=0 GOOS=linux GOARCH=arm64 $(GO) build $(TRIMFLAGS) -ldflags="$(LDFLAGS)" -o ../$(BIN)/realitykeygen-linux-arm64 ./cmd/realitykeygen
 
 # Everything you'd ship onto Linux in one shot.
 linux: client-linux server-linux

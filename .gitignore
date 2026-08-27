@@ -4,10 +4,8 @@
 # Local/stale binaries (built into module dirs before the Makefile moved them to bin/)
 /vinereal-server
 /vinereal-client-demo
-/realitykeygen
 /server/vinereal-server
 /client/vinereal-client-demo
-/server/realitykeygen
 
 # gomobile bind output
 *.aar

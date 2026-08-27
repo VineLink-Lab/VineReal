@@ -4,8 +4,8 @@
 //
 // It is deliberately a test/verification tool: identity material is passed on
 // the command line so you can point it at any server. For production, bake the
-// values into the SDK instead (see cmd/realitykeygen -format go) and keep this
-// binary out of shipped apps.
+// values into the SDK instead (see `vinereal-server keygen -format go`) and
+// keep this binary out of shipped apps.
 package main
 
 import (
@@ -31,7 +31,7 @@ func main() {
 		showVersion = flag.Bool("version", false, "print version and exit")
 		serverAddr  = flag.String("server", "", "REALITY server host:port")
 		serverName  = flag.String("sni", "", "decoy SNI/hostname (must match one of the server's reality.server_names)")
-		publicKey   = flag.String("pubkey", "", "REALITY server X25519 public key (base64 raw URL, from realitykeygen)")
+		publicKey   = flag.String("pubkey", "", "REALITY server X25519 public key (base64 raw URL, from `vinereal-server keygen`)")
 		shortID     = flag.String("shortid", "", "REALITY short ID (hex, 0-16 chars; empty = all-zero default)")
 		fingerprint = flag.String("fingerprint", "chrome_auto", "uTLS fingerprint name (see client/vinereal/fingerprint.go)")
 		timeoutMS   = flag.Int64("timeout", 10000, "dial + handshake + vision-exchange timeout in milliseconds")

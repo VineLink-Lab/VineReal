@@ -1,4 +1,9 @@
-// Command vinereal-server runs the REALITY-fronted reverse proxy.
+// Command vinereal-server runs the REALITY-fronted reverse proxy. It also
+// hosts the `keygen` subcommand for generating deployment key material:
+//
+//	vinereal-server            # run the proxy
+//	vinereal-server keygen     # generate REALITY keys + short IDs
+//	vinereal-server -version   # print version
 package main
 
 import (
@@ -20,6 +25,10 @@ import (
 var version = "dev"
 
 func main() {
+	if len(os.Args) >= 2 && os.Args[1] == "keygen" {
+		os.Exit(keygenMain(os.Args[2:]))
+	}
+
 	showVersion := flag.Bool("version", false, "print version and exit")
 	configPath := flag.String("config", "config.yaml", "path to the server YAML config")
 	flag.Parse()
