@@ -16,6 +16,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/VineLink-Lab/VineReal/client/vinereal"
@@ -25,6 +26,18 @@ import (
 // -ldflags "-X main.version=$(git describe --tags)" and defaults to "dev" for
 // local, untagged builds.
 var version = "dev"
+
+// headerFlag is a repeatable -header flag; each occurrence is "Key: Value".
+type headerFlag []string
+
+func (h *headerFlag) String() string {
+	return strings.Join(*h, ", ")
+}
+
+func (h *headerFlag) Set(v string) error {
+	*h = append(*h, v)
+	return nil
+}
 
 func main() {
 	var (
@@ -38,6 +51,10 @@ func main() {
 		httpHost    = flag.String("host", "", "HTTP Host header to send to the fixed upstream backend")
 		httpPath    = flag.String("path", "/", "HTTP request path")
 	)
+
+	var headers headerFlag
+	flag.Var(&headers, "header", `HTTP header to send as "Key: Value" (repeatable)`)
+
 	flag.Parse()
 
 	if *showVersion {
@@ -80,6 +97,13 @@ func main() {
 	}
 	if *httpHost != "" {
 		req.Host = *httpHost
+	}
+	for _, h := range headers {
+		key, value, ok := strings.Cut(h, ":")
+		if !ok {
+			log.Fatalf("invalid -header %q (want \"Key: Value\")", h)
+		}
+		req.Header.Add(strings.TrimSpace(key), strings.TrimSpace(value))
 	}
 	req.Close = true
 
